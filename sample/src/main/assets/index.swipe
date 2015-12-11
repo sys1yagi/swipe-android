@@ -1,0 +1,16 @@
+{
+    "type":"net.swipe.list",
+    "rowHeight":"10%",
+    "items":[
+        { "url":"swipe.swipe", "title":"Swipe Overview", "icon":"Icon-180.png" },
+        { "url":"tutorial.swipe", "title":"Swipe Tutorial", "icon":"Icon-180.png" },
+        { "url":"videostream.swipe", "title":"Streaming Video", "icon":"movie.png" },
+        { "url":"radiostream.swipe", "title":"Internet Radio Stations", "icon":"radio.png" },
+        { "url":"markdown.swipe", "title":"Rich Text", "icon":"text.png" },
+        { "url":"speech.swipe", "title":"Speech", "icon":"speech.png" },
+        { "url":"nasa.swipe", "title":"NASA HQ Images", "icon":"nasa.png" },
+        { "url":"espresso_machine_l.swipe", "title":"Espresso Machine", "icon":"espresso.png" },
+        { "url":"http://www.swipe.net/index.swipe", "title":"More ...", "icon":"more.png" },
+        { "url":"http://www.swipe.net/index2.swipe", "title":"More 2...", "icon":"more.png" },
+    ]
+}

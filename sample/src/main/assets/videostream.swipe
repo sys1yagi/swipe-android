@@ -1,0 +1,32 @@
+{
+    "title": "Video Stream Test",
+    "orientation":"landscape",
+    "scenes":{
+        "*":{
+            "bc":"#333",
+            "play":"always",
+        },
+    },
+    "pages":[
+        {
+            "elements":[
+                { "video":"http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8", "stream":true },
+            ],
+        },
+        {
+            "elements":[
+                { "video":"http://devstreaming.apple.com/videos/wwdc/2015/214dh5q5d0kswh/214/hls_vod_mvp.m3u8", "stream":true },
+            ],
+        },
+        {
+            "elements":[
+                { "video":"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8", "stream":true },
+            ],
+        },
+        {
+            "elements":[
+                { "video":"https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8", "stream":true },
+            ],
+        },
+    ]
+}
