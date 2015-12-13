@@ -1,4 +1,4 @@
-package com.sys1yagi.swipe_android;
+package com.sys1yagi.swipe;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
