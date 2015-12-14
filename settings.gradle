@@ -1,1 +1,1 @@
-include ':sample', ':core', ':network'
+include ':sample', ':core', ':network', ':browser'
