@@ -1,4 +1,4 @@
-package com.sys1yagi.swipe.entity;
+package com.sys1yagi.swipe.sample.entity;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,4 @@
-package com.sys1yagi.browser;
+package com.sys1yagi.swipe.browser;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

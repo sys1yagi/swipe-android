@@ -1,12 +1,12 @@
-package com.sys1yagi.swipe.activity;
+package com.sys1yagi.swipe.sample.activity;
 
 import com.google.gson.Gson;
 
-import com.sys1yagi.swipe.R;
-import com.sys1yagi.swipe.databinding.ActivityMainBinding;
-import com.sys1yagi.swipe.entity.Index;
-import com.sys1yagi.swipe.util.AssetsUtils;
-import com.sys1yagi.swipe.view.IndexAdapter;
+import com.sys1yagi.swipe.sample.R;
+import com.sys1yagi.swipe.sample.databinding.ActivityMainBinding;
+import com.sys1yagi.swipe.sample.entity.Index;
+import com.sys1yagi.swipe.sample.util.AssetsUtils;
+import com.sys1yagi.swipe.sample.view.IndexAdapter;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;

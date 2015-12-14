@@ -1,9 +1,9 @@
-package com.sys1yagi.swipe.view;
+package com.sys1yagi.swipe.sample.view;
 
-import com.sys1yagi.swipe.R;
-import com.sys1yagi.swipe.entity.Item;
-import com.sys1yagi.swipe.tools.AssetsPathStore;
-import com.sys1yagi.swipe.tools.PabloPicasso;
+import com.sys1yagi.swipe.sample.R;
+import com.sys1yagi.swipe.sample.entity.Item;
+import com.sys1yagi.swipe.sample.tools.AssetsPathStore;
+import com.sys1yagi.swipe.sample.tools.PabloPicasso;
 
 import android.content.Context;
 import android.view.View;

@@ -1,4 +1,4 @@
-package com.sys1yagi.browser;
+package com.sys1yagi.swipe.browser;
 
 import org.junit.Test;
 
