@@ -1,6 +1,7 @@
-package com.sys1yagi.swipe.sample.tools;
+package com.sys1yagi.swipe.core.tool;
 
-import com.sys1yagi.swipe.sample.util.AssetsUtils;
+
+import com.sys1yagi.swipe.core.util.AssetsUtils;
 
 import android.content.res.AssetManager;
 

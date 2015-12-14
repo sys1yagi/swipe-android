@@ -1,4 +1,4 @@
-package com.sys1yagi.swipe.sample.tools;
+package com.sys1yagi.swipe.core.tool;
 
 import com.squareup.picasso.Picasso;
 

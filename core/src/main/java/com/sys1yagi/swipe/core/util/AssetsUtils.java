@@ -1,4 +1,4 @@
-package com.sys1yagi.swipe.sample.util;
+package com.sys1yagi.swipe.core.util;
 
 import android.content.Context;
 import android.content.res.AssetManager;
