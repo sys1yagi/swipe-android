@@ -4,6 +4,7 @@ package com.sys1yagi.swipe.core.tool;
 import com.sys1yagi.swipe.core.util.AssetsUtils;
 
 import android.content.res.AssetManager;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,7 @@ public class AssetsPathStore {
     }
 
     public boolean contains(String name) {
-        for (String path : pathList) {
-            if (path.lastIndexOf(name) != -1) {
-                return true;
-            }
-        }
-        return false;
+        return !TextUtils.isEmpty(toPath(name));
     }
 
     public String toPath(String name) {
