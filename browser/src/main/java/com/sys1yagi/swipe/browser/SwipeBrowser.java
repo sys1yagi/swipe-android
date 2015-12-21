@@ -1,18 +1,19 @@
 package com.sys1yagi.swipe.browser;
 
+import com.google.gson.Gson;
+
+import com.sys1yagi.browser.R;
+import com.sys1yagi.browser.databinding.ActivitySwipeIndexBinding;
+import com.sys1yagi.swipe.browser.view.IndexAdapter;
+import com.sys1yagi.swipe.core.entity.index.Index;
+import com.sys1yagi.swipe.core.entity.index.Item;
+import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder;
+import com.sys1yagi.swipe.core.util.AssetsUtils;
+
 import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.view.View;
 import android.widget.AdapterView;
-
-import com.google.gson.Gson;
-import com.sys1yagi.browser.R;
-import com.sys1yagi.browser.databinding.ActivitySwipeIndexBinding;
-import com.sys1yagi.swipe.browser.view.IndexAdapter;
-import com.sys1yagi.swipe.core.entity.Index;
-import com.sys1yagi.swipe.core.entity.Item;
-import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder;
-import com.sys1yagi.swipe.core.util.AssetsUtils;
 
 public class SwipeBrowser {
 

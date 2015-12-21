@@ -1,7 +1,7 @@
 package com.sys1yagi.swipe.browser.view;
 
 import com.sys1yagi.browser.R;
-import com.sys1yagi.swipe.core.entity.Item;
+import com.sys1yagi.swipe.core.entity.index.Item;
 import com.sys1yagi.swipe.core.tool.AssetsPathStore;
 import com.sys1yagi.swipe.core.tool.PabloPicasso;
 
