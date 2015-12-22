@@ -48,10 +48,16 @@ public class SwipeTest {
         assertThat(swipe.getScenes().getAsJsonObject("*").get("bc").getAsString()).isEqualTo("#ddf");
         assertThat(swipe.getScenes().getAsJsonObject("demo").get("bc").getAsString()).isEqualTo("#fff");
 
-        //TODO Named Element
+        //TODO Named Element Assertion
         com.google.gson.JsonObject elements = swipe.getElements();
         assertThat(elements).isNotNull();
 
+        assertThat(elements.get("body").getAsJsonObject().get("x").getAsString()).isEqualTo("center");
+        assertThat(elements.get("body").getAsJsonObject().get("w").getAsString()).isEqualTo("66.7%");
+        assertThat(elements.get("code").getAsJsonObject().get("x").getAsString()).isEqualTo("4%");
+        assertThat(elements.get("code").getAsJsonObject().get("y").getAsString()).isEqualTo("4%");
+        assertThat(elements.get("code").getAsJsonObject().get("w").getAsString()).isEqualTo("44%");
+        assertThat(elements.get("code").getAsJsonObject().get("h").getAsString()).isEqualTo("92%");
 
         assertThat(swipe.getPaths()).isNull();
 
