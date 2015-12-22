@@ -1,0 +1,28 @@
+# Build configuration file for Circle CI
+# needs to be named `circle.yml` and should be in the top level dir of the repo
+machine:
+  environment:
+    # set the adb install timeout to 8 minutes (default is 2 minutes)
+    ADB_INSTALL_TIMEOUT: 8
+    JAVA_OPTS: "-Xms384m -Xmx640m"
+
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "platform-tools,build-tools-23.0.2,android-23,extra-android-support,extra-google-google_play_services,extra-google-m2repository,extra-android-m2repository"
+
+test:
+  override:
+    # build the project
+    - ./gradlew assembleDebug -PdisablePreDex
+    # run test
+    - ./gradlew testDebugUnitTest -PdisablePreDex
+    # run static analysis
+    - ./gradlew lint checkstyle findbugs -PdisablePreDex
+    # run robolectric tests - disabled for now
+    #- ./gradlew testStagingDebugUnitTest -PdisablePreDex
+  post:
+    # copy the build outputs to artifacts
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+    - cp -r app/build/reports $CIRCLE_ARTIFACTS
+    # copy the test results to the test results directory - disabled for now
+    #- cp -r app/build/reports/tests/* $CIRCLE_TEST_REPORTS
