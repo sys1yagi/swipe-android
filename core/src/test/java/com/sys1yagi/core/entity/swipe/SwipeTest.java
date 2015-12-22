@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.sys1yagi.core.testtool.TestAssetsUtils;
 import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument;
 
+import org.assertj.core.data.Index;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 import org.hjson.Stringify;
@@ -12,7 +13,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @RunWith(RobolectricTestRunner.class)
 public class SwipeTest {
@@ -36,14 +38,13 @@ public class SwipeTest {
         assertThat(swipe).isNotNull();
         assertThat(swipe.getBc()).isEqualTo(0);
         assertThat(swipe.getTitle()).isEqualTo("Swipe");
-        assertThat(swipe.getDimension())
-                .hasLength(2);
-        assertThat(swipe.getDimension()[0]).isEqualTo(1280);
-        assertThat(swipe.getDimension()[1]).isEqualTo(0);
+        assertThat(swipe.getDimension()).hasSize(2)
+                .contains(1280, Index.atIndex(0))
+                .contains(0, Index.atIndex(1));
+
         assertThat(swipe.getPaging()).isEqualTo("vertical");
         assertThat(swipe.getOrientation()).isEqualTo("landscape");
 
-        assertThat(swipe.getScenes().has("*")).isTrue();
         assertThat(swipe.getScenes().getAsJsonObject("*").get("bc").getAsString()).isEqualTo("#ddf");
         assertThat(swipe.getScenes().getAsJsonObject("demo").get("bc").getAsString()).isEqualTo("#fff");
 
