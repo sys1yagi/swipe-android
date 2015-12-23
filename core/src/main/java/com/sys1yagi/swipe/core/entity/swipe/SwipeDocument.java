@@ -26,6 +26,25 @@ import java.util.List;
  */
 public class SwipeDocument {
 
+    public enum Orientation {
+        PORTRAIT,
+        LANDSCAPE,
+        UNKNOWN;
+
+        public static Orientation get(String name) {
+            if (TextUtils.isEmpty(name)) {
+                return PORTRAIT;
+            }
+            switch (name) {
+                case "portrait":
+                    return PORTRAIT;
+                case "landscape":
+                    return LANDSCAPE;
+            }
+            return UNKNOWN;
+        }
+    }
+
     @SerializedName("title")
     String title;
 
@@ -86,10 +105,11 @@ public class SwipeDocument {
         return paging;
     }
 
-    public String getOrientation() {
-        if (TextUtils.isEmpty(orientation)) {
-            return "portrait";
-        }
+    public Orientation getOrientation() {
+        return Orientation.get(orientation);
+    }
+
+    public String getOrientationString() {
         return orientation;
     }
 

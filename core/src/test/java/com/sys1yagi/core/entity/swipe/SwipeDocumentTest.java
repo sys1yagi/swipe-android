@@ -43,7 +43,7 @@ public class SwipeDocumentTest {
                 .contains(0, Index.atIndex(1));
 
         assertThat(swipe.getPaging()).isEqualTo("vertical");
-        assertThat(swipe.getOrientation()).isEqualTo("landscape");
+        assertThat(swipe.getOrientation()).isEqualTo(SwipeDocument.Orientation.LANDSCAPE);
 
         assertThat(swipe.getScenes().getAsJsonObject("*").get("bc").getAsString()).isEqualTo("#ddf");
         assertThat(swipe.getScenes().getAsJsonObject("demo").get("bc").getAsString()).isEqualTo("#fff");
