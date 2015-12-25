@@ -1,6 +1,5 @@
 package com.sys1yagi.swipe.core.tool;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sys1yagi.swipe.core.entity.index.Index;
@@ -19,7 +18,7 @@ public class SwipeEntityDecoder {
         return JsonValue.readHjson(jsonString).asObject().toString();
     }
 
-    public Index decodeToIndex(Gson gson, String jsonString) {
+    public Index decodeToIndex(JsonConverter jsonConverter, String jsonString) {
 
         JsonObject json = new JsonParser().parse(hjson(jsonString)).getAsJsonObject();
         if (!json.has(KEY_TYPE)) {
@@ -28,15 +27,14 @@ public class SwipeEntityDecoder {
         if (!TYPE_INDEX.equals(json.get(KEY_TYPE).getAsString())) {
             throw new IllegalArgumentException("Invalid index swipe file. data:" + jsonString);
         }
-        return gson.fromJson(json, Index.class);
+        return jsonConverter.fromJson(json, Index.class);
     }
 
-    public SwipeDocument decodeToSwipe(Gson gson, String jsonString) {
-
+    public SwipeDocument decodeToSwipe(JsonConverter jsonConverter, String jsonString) {
         JsonObject json = new JsonParser().parse(hjson(jsonString)).getAsJsonObject();
         if (json.has(KEY_TYPE) && TYPE_INDEX.equals(json.get(KEY_TYPE).getAsString())) {
             throw new IllegalArgumentException("Invalid contents swipe file. data:" + jsonString);
         }
-        return gson.fromJson(json, SwipeDocument.class);
+        return jsonConverter.fromJson(json, SwipeDocument.class);
     }
 }

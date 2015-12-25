@@ -9,12 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.sys1yagi.browser.R;
 import com.sys1yagi.browser.databinding.ActivitySwipeContentsBrowseBinding;
 import com.sys1yagi.swipe.browser.view.SwipeViewPagerCountAdapter;
 import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument;
 import com.sys1yagi.swipe.core.tool.AssetsPathStore;
+import com.sys1yagi.swipe.core.tool.JsonConverter;
 import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder;
 import com.sys1yagi.swipe.core.util.AssetsUtils;
 
@@ -67,7 +67,7 @@ public class SwipeContentsBrowseActivity extends AppCompatActivity {
         }
         String jsonString = assetsUtils.loadFromAssets(this, assetsPathStore.toPath(swipeFileName));
         SwipeEntityDecoder swipeEntityDecoder = new SwipeEntityDecoder();
-        return swipeEntityDecoder.decodeToSwipe(new Gson(), jsonString);
+        return swipeEntityDecoder.decodeToSwipe(JsonConverter.getInstance(), jsonString);
     }
 
 

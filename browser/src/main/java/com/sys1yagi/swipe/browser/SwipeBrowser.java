@@ -6,13 +6,13 @@ import android.databinding.DataBindingUtil;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.google.gson.Gson;
 import com.sys1yagi.browser.R;
 import com.sys1yagi.browser.databinding.ActivitySwipeIndexBinding;
 import com.sys1yagi.swipe.browser.activity.SwipeContentsBrowseActivity;
 import com.sys1yagi.swipe.browser.view.IndexAdapter;
 import com.sys1yagi.swipe.core.entity.index.Index;
 import com.sys1yagi.swipe.core.entity.index.Item;
+import com.sys1yagi.swipe.core.tool.JsonConverter;
 import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder;
 import com.sys1yagi.swipe.core.util.AssetsUtils;
 
@@ -25,8 +25,6 @@ public class SwipeBrowser {
     AssetsUtils assetsUtils;
 
     Activity target;
-
-    Gson gson = new Gson();
 
     SwipeEntityDecoder swipeEntityDecoder;
 
@@ -65,7 +63,7 @@ public class SwipeBrowser {
     private void setupIndex(IndexAdapter adapter) {
         target.setTitle(indexFileName);
         String jsonString = assetsUtils.loadFromAssets(target, indexFileName);
-        Index index = swipeEntityDecoder.decodeToIndex(gson, jsonString);
+        Index index = swipeEntityDecoder.decodeToIndex(JsonConverter.getInstance(), jsonString);
         adapter.addAll(index.getItems());
     }
 }
