@@ -61,8 +61,13 @@ public class SwipeDocumentTest {
 
         assertThat(swipe.getPaths()).isNull();
 
-        //TODO markdown
+
         assertThat(swipe.getMarkdown()).isNotNull();
+        assertThat(swipe.getMarkdown().getStyles().size()).isEqualTo(7);
+        assertThat(swipe.getMarkdown().getStyles().get("#").getColor()).isEqualTo("#616161");
+        assertThat(swipe.getMarkdown().getStyles().get("#").getAlignment()).isEqualTo("center");
+        assertThat(swipe.getMarkdown().getStyles().get("#").getFont().getSize()).isEqualTo(92);
+        assertThat(swipe.getMarkdown().getStyles().get("#").getFont().getName()).isEqualTo("Helvetica-Bold");
 
         assertThat(swipe.getVoice()).isNull();
 

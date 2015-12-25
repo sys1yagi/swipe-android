@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.text.TextUtils;
 
 import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument;
+import com.sys1yagi.swipe.core.entity.swipe.SwipeElement;
 import com.sys1yagi.swipe.core.entity.swipe.SwipePage;
 
 public class SwipeRenderer {
@@ -41,20 +42,20 @@ public class SwipeRenderer {
         int pageScrollY = (scrollY - (currentPage * displaySize.height()));
         canvas.drawText("pageOffset0=" + (-pageScrollY), 20, paint.getFontSpacing() * 3, paint);
 
-        renderPage(canvas, swipeDocument.getPages().get(currentPage), scrollX, -pageScrollY);
+        renderPage(canvas, swipeDocument, swipeDocument.getPages().get(currentPage), scrollX, -pageScrollY);
         if (drawNextPage) {
             int pageScrollY1 = (displaySize.height() - pageScrollY);
             canvas.drawText("pageOffset1=" + pageScrollY1, 20, paint.getFontSpacing() * 4, paint);
-            renderPage(canvas, swipeDocument.getPages().get(currentPage + 1), scrollX, pageScrollY1);
+            renderPage(canvas, swipeDocument, swipeDocument.getPages().get(currentPage + 1), scrollX, pageScrollY1);
         }
     }
 
-    private void renderPage(Canvas canvas, SwipePage page, int offsetX, int offsetY) {
+    private void renderPage(Canvas canvas, SwipeDocument document, SwipePage page, int offsetX, int offsetY) {
         canvas.save();
         canvas.translate(0, offsetY);
 
         renderBackground(canvas, page);
-        renderElements(canvas, page);
+        renderElements(canvas, document, page);
 
         canvas.restore();
     }
@@ -64,8 +65,19 @@ public class SwipeRenderer {
 
     }
 
-    private void renderElements(Canvas canvas, SwipePage page) {
+    private void renderElement(Canvas canvas, SwipeDocument document, SwipeElement element) {
+        String w = element.getW();
+        
 
+        if (!element.getMarkdown().isEmpty()) {
+
+        }
+    }
+
+    private void renderElements(Canvas canvas, SwipeDocument document, SwipePage page) {
+        for (SwipeElement element : page.getElements()) {
+            renderElement(canvas, document, element);
+        }
     }
 
     private void renderBackground(Canvas canvas, SwipePage page) {

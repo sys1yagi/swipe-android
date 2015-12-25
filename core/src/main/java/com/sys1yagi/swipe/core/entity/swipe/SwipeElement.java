@@ -3,6 +3,8 @@ package com.sys1yagi.swipe.core.entity.swipe;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Element properties
  * id (String): the element identifier to identify an element in the associated Scene
@@ -102,6 +104,9 @@ public class SwipeElement {
 
     @SerializedName("text")
     String text;
+
+    @SerializedName("markdown")
+    List<String> markdown;
 
     @SerializedName("textAlign")
     String textAlign;
@@ -226,6 +231,10 @@ public class SwipeElement {
 
     public String getText() {
         return text;
+    }
+
+    public List<String> getMarkdown() {
+        return markdown;
     }
 
     public String getTextAlign() {
