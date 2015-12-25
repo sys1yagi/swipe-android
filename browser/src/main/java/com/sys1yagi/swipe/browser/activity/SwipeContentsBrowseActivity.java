@@ -14,8 +14,8 @@ import com.sys1yagi.browser.databinding.ActivitySwipeContentsBrowseBinding;
 import com.sys1yagi.swipe.browser.view.SwipeViewPagerCountAdapter;
 import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument;
 import com.sys1yagi.swipe.core.tool.AssetsPathStore;
-import com.sys1yagi.swipe.core.tool.JsonConverter;
 import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder;
+import com.sys1yagi.swipe.core.tool.json.JsonConverter;
 import com.sys1yagi.swipe.core.util.AssetsUtils;
 
 public class SwipeContentsBrowseActivity extends AppCompatActivity {

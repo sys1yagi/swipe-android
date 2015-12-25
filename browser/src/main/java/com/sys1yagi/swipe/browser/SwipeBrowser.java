@@ -12,8 +12,8 @@ import com.sys1yagi.swipe.browser.activity.SwipeContentsBrowseActivity;
 import com.sys1yagi.swipe.browser.view.IndexAdapter;
 import com.sys1yagi.swipe.core.entity.index.Index;
 import com.sys1yagi.swipe.core.entity.index.Item;
-import com.sys1yagi.swipe.core.tool.JsonConverter;
 import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder;
+import com.sys1yagi.swipe.core.tool.json.JsonConverter;
 import com.sys1yagi.swipe.core.util.AssetsUtils;
 
 public class SwipeBrowser {

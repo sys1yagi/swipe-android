@@ -3,7 +3,7 @@ package com.sys1yagi.core.entity.swipe;
 import com.sys1yagi.core.testtool.TestAssetsUtils;
 import com.sys1yagi.swipe.core.entity.swipe.NamedElements;
 import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument;
-import com.sys1yagi.swipe.core.tool.JsonConverter;
+import com.sys1yagi.swipe.core.tool.json.JsonConverter;
 
 import org.assertj.core.data.Index;
 import org.hjson.JsonObject;
@@ -51,12 +51,13 @@ public class SwipeDocumentTest {
         NamedElements elements = swipe.getElements();
         assertThat(elements).isNotNull();
 
-//        assertThat(elements.get("body").getAsJsonObject().get("x").getAsString()).isEqualTo("center");
-//        assertThat(elements.get("body").getAsJsonObject().get("w").getAsString()).isEqualTo("66.7%");
-//        assertThat(elements.get("code").getAsJsonObject().get("x").getAsString()).isEqualTo("4%");
-//        assertThat(elements.get("code").getAsJsonObject().get("y").getAsString()).isEqualTo("4%");
-//        assertThat(elements.get("code").getAsJsonObject().get("w").getAsString()).isEqualTo("44%");
-//        assertThat(elements.get("code").getAsJsonObject().get("h").getAsString()).isEqualTo("92%");
+        assertThat(elements.get("body")).isNotNull();
+        assertThat(elements.get("body").getX()).isEqualTo("center");
+        assertThat(elements.get("body").getW()).isEqualTo("66.7%");
+        assertThat(elements.get("code").getX()).isEqualTo("4%");
+        assertThat(elements.get("code").getY()).isEqualTo("4%");
+        assertThat(elements.get("code").getW()).isEqualTo("44%");
+        assertThat(elements.get("code").getH()).isEqualTo("92%");
 
         assertThat(swipe.getPaths()).isNull();
 

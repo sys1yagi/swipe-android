@@ -1,8 +1,9 @@
-package com.sys1yagi.swipe.core.tool;
+package com.sys1yagi.swipe.core.tool.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.sys1yagi.swipe.core.entity.swipe.NamedElements;
 
 public class JsonConverter {
 
@@ -12,6 +13,7 @@ public class JsonConverter {
 
     private JsonConverter() {
         gson = new GsonBuilder()
+                .registerTypeAdapter(NamedElements.class, new NamedElementsConverter())
                 .create();
     }
 

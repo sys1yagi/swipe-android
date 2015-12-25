@@ -1,7 +1,8 @@
 package com.sys1yagi.swipe.core.entity.swipe;
 
-import com.google.gson.JsonArray;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * Page Properties
@@ -60,7 +61,7 @@ public class SwipePage {
     boolean vibrate;
 
     @SerializedName("elements")
-    JsonArray elements;
+    List<SwipeElement> elements;
 
     @SerializedName("eyePosition")
     float eyePosition;
@@ -109,7 +110,7 @@ public class SwipePage {
         return vibrate;
     }
 
-    public JsonArray getElements() {
+    public List<SwipeElement> getElements() {
         return elements;
     }
 

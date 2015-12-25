@@ -66,7 +66,7 @@ public class SwipeDocument {
     JsonObject scenes;
 
     @SerializedName("elements")
-    JsonObject elements;
+    NamedElements elements;
 
     @SerializedName("paths")
     JsonObject paths;
@@ -117,7 +117,7 @@ public class SwipeDocument {
         return scenes;
     }
 
-    public JsonObject getElements() {
+    public NamedElements getElements() {
         return elements;
     }
 

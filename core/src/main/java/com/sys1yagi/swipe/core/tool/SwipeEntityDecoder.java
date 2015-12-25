@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sys1yagi.swipe.core.entity.index.Index;
 import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument;
+import com.sys1yagi.swipe.core.tool.json.JsonConverter;
 
 import org.hjson.JsonValue;
 
