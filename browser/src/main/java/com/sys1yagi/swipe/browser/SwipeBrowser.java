@@ -1,19 +1,20 @@
 package com.sys1yagi.swipe.browser;
 
-import com.google.gson.Gson;
+import android.app.Activity;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.view.View;
+import android.widget.AdapterView;
 
+import com.google.gson.Gson;
 import com.sys1yagi.browser.R;
 import com.sys1yagi.browser.databinding.ActivitySwipeIndexBinding;
+import com.sys1yagi.swipe.browser.activity.SwipeContentsBrowseActivity;
 import com.sys1yagi.swipe.browser.view.IndexAdapter;
 import com.sys1yagi.swipe.core.entity.index.Index;
 import com.sys1yagi.swipe.core.entity.index.Item;
 import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder;
 import com.sys1yagi.swipe.core.util.AssetsUtils;
-
-import android.app.Activity;
-import android.databinding.DataBindingUtil;
-import android.view.View;
-import android.widget.AdapterView;
 
 public class SwipeBrowser {
 
@@ -54,7 +55,8 @@ public class SwipeBrowser {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Item item = adapter.getItem(position);
-
+                Intent intent = SwipeContentsBrowseActivity.createIntent(adapter.getContext(), item.getUrl());
+                adapter.getContext().startActivity(intent);
             }
         });
         setupIndex(adapter);
