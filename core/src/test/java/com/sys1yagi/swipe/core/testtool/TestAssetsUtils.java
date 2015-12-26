@@ -1,4 +1,4 @@
-package com.sys1yagi.core.testtool;
+package com.sys1yagi.swipe.core.testtool;
 
 import java.io.BufferedReader;
 import java.io.File;

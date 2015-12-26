@@ -1,8 +1,6 @@
-package com.sys1yagi.core.entity.swipe;
+package com.sys1yagi.swipe.core.entity.swipe;
 
-import com.sys1yagi.core.testtool.TestAssetsUtils;
-import com.sys1yagi.swipe.core.entity.swipe.NamedElements;
-import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument;
+import com.sys1yagi.swipe.core.testtool.TestAssetsUtils;
 import com.sys1yagi.swipe.core.tool.json.JsonConverter;
 
 import org.assertj.core.data.Index;
@@ -15,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 @RunWith(RobolectricTestRunner.class)
 public class SwipeDocumentTest {
@@ -44,8 +41,8 @@ public class SwipeDocumentTest {
         assertThat(swipe.getPaging()).isEqualTo("vertical");
         assertThat(swipe.getOrientation()).isEqualTo(SwipeDocument.Orientation.LANDSCAPE);
 
-        assertThat(swipe.getScenes().getAsJsonObject("*").get("bc").getAsString()).isEqualTo("#ddf");
-        assertThat(swipe.getScenes().getAsJsonObject("demo").get("bc").getAsString()).isEqualTo("#fff");
+        assertThat(swipe.getScenes().get("*").getBc()).isEqualTo("#ddf");
+        assertThat(swipe.getScenes().get("demo").getBc()).isEqualTo("#fff");
 
         //TODO Named Element Assertion
         NamedElements elements = swipe.getElements();

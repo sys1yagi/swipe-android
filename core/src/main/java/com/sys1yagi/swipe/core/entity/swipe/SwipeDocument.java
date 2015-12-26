@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * https://github.com/snakajima/swipe/blob/master/SPECIFICATION.md
@@ -63,7 +64,7 @@ public class SwipeDocument {
     String orientation;
 
     @SerializedName("scenes")
-    JsonObject scenes;
+    Map<String, SwipeScene> scenes;
 
     @SerializedName("elements")
     NamedElements elements;
@@ -113,7 +114,7 @@ public class SwipeDocument {
         return orientation;
     }
 
-    public JsonObject getScenes() {
+    public Map<String, SwipeScene> getScenes() {
         return scenes;
     }
 
