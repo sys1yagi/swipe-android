@@ -1,12 +1,10 @@
 package com.sys1yagi.swipe.core.tool
 
 
-import com.sys1yagi.swipe.core.util.AssetsUtils
-
 import android.content.res.AssetManager
 import android.text.TextUtils
-
-import java.util.ArrayList
+import com.sys1yagi.swipe.core.util.AssetsUtils
+import java.util.*
 
 class AssetsPathStore(assetManager: AssetManager) {
 
@@ -18,20 +16,22 @@ class AssetsPathStore(assetManager: AssetManager) {
         assetsUtils.scan(assetManager, pathList)
     }
 
-    operator fun contains(name: String): Boolean {
+    operator fun contains(name: String?): Boolean {
         return !TextUtils.isEmpty(toPath(name))
     }
 
-    fun toPath(name: String): String? {
-        for (path in pathList) {
-            if (path.lastIndexOf(name) != -1) {
-                return path
+    fun toPath(name: String?): String? {
+        name?.let {
+            for (path in pathList) {
+                if (path.lastIndexOf(it) != -1) {
+                    return path
+                }
             }
         }
         return null
     }
 
-    fun getAssetPath(name: String): String? {
+    fun getAssetPath(name: String?): String? {
         if (!contains(name)) {
             return null
         }

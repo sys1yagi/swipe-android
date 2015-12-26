@@ -1,9 +1,9 @@
 package com.sys1yagi.swipe.sample.activity;
 
-import com.sys1yagi.swipe.browser.SwipeBrowser;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.sys1yagi.swipe.browser.SwipeBrowser;
 
 public class MainActivity extends AppCompatActivity {
     @Override
