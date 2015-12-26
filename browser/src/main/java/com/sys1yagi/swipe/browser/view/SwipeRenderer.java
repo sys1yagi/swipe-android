@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument;
 import com.sys1yagi.swipe.core.entity.swipe.SwipeElement;
@@ -71,7 +70,7 @@ public class SwipeRenderer {
         if (scene == null) {
             return;
         }
-        int color = ColorConverter.toColorInt(scene.getBc());
+        int color = ColorConverter.Companion.toColorInt(scene.getBc());
         int oldColor = paint.getColor();
         paint.setColor(color);
         canvas.drawRect(0, 0, displaySize.width(), displaySize.height(), paint);
@@ -80,7 +79,7 @@ public class SwipeRenderer {
 
     private void renderElement(Canvas canvas, SwipeDocument document, SwipeElement element) {
         String w = element.getW();
-        if (!ListUtils.isEmpty(element.getMarkdown())) {
+        if (!ListUtils.INSTANCE.isEmpty(element.getMarkdown())) {
             // TODO
         }
     }
@@ -96,7 +95,7 @@ public class SwipeRenderer {
         if (TextUtils.isEmpty(page.getBc())) {
             return;
         }
-        paint.setColor(ColorConverter.toColorInt(page.getBc()));
+        paint.setColor(ColorConverter.Companion.toColorInt(page.getBc()));
         canvas.drawRect(displaySize, paint);
     }
 }

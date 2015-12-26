@@ -9,31 +9,31 @@ public class ColorConverterTest {
     @Test
     public void testToColorInt() throws Exception {
         {
-            int color = ColorConverter.toColorInt("#000000");
+            int color = ColorConverter.Companion.toColorInt("#000000");
             assertThat(color).isEqualTo(-16777216);
         }
         {
-            int color = ColorConverter.toColorInt("#FFFFFF");
+            int color = ColorConverter.Companion.toColorInt("#FFFFFF");
             assertThat(color).isEqualTo(-1);
         }
         {
-            int color = ColorConverter.toColorInt("#ffffff");
+            int color = ColorConverter.Companion.toColorInt("#ffffff");
             assertThat(color).isEqualTo(-1);
         }
         {
-            int color = ColorConverter.toColorInt("ffffff");
+            int color = ColorConverter.Companion.toColorInt("ffffff");
             assertThat(color).isEqualTo(-1);
         }
         {
-            int color = ColorConverter.toColorInt("#fff");
+            int color = ColorConverter.Companion.toColorInt("#fff");
             assertThat(color).isEqualTo(-1);
         }
         {
-            int color = ColorConverter.toColorInt("fff");
+            int color = ColorConverter.Companion.toColorInt("fff");
             assertThat(color).isEqualTo(-1);
         }
         {
-            int color = ColorConverter.toColorInt("abc");
+            int color = ColorConverter.Companion.toColorInt("abc");
             assertThat(color).isEqualTo(-5588020);
         }
     }

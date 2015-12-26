@@ -1,16 +1,16 @@
 package com.sys1yagi.swipe.browser.view;
 
-import com.sys1yagi.browser.R;
-import com.sys1yagi.swipe.core.entity.index.Item;
-import com.sys1yagi.swipe.core.tool.AssetsPathStore;
-import com.sys1yagi.swipe.core.tool.PabloPicasso;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.sys1yagi.browser.R;
+import com.sys1yagi.swipe.core.entity.index.Item;
+import com.sys1yagi.swipe.core.tool.AssetsPathStore;
+import com.sys1yagi.swipe.core.tool.PabloPicasso;
 
 public class IndexAdapter extends ArrayAdapter<Item> {
 
@@ -40,7 +40,7 @@ public class IndexAdapter extends ArrayAdapter<Item> {
 
         ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
         String path = store.getAssetPath(item.getIcon());
-        pablo.picasso.load(path).into(icon);
+        pablo.getPicasso().load(path).into(icon);
         return convertView;
     }
 }
