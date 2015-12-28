@@ -89,7 +89,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         paint.set(oldPaint)
     }
 
-    private fun measureMarkdownHeight(document: SwipeDocument, element: SwipeElement, markdown: List<String>): Int {
+    fun measureMarkdownHeight(document: SwipeDocument, element: SwipeElement, markdown: List<String>): Int {
         val dimension = document.dimension
         val displayWidth = if (dimension[0] == 0) displaySize.width() else dimension[0]
         val displayHeight = if (dimension[1] == 0) displaySize.height() else dimension[1]
