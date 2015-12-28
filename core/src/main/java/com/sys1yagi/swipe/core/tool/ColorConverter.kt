@@ -1,12 +1,13 @@
 package com.sys1yagi.swipe.core.tool
 
+import android.graphics.Color
 import android.support.annotation.Size
 
 class ColorConverter {
     companion object {
         fun toColorInt(@Size(min = 3) color: String?): Int {
             if (color == null) {
-                return 0
+                return Color.BLACK
             }
             var colorString = color
             if (colorString.startsWith("#")) {

@@ -35,7 +35,9 @@ class SwipeRendererTest {
     fun measureMarkdown() {
         // TODO dimensionを考慮する
         renderer.displaySize = Rect(0, 0, 1794, 1080)
+
         val paint = Paint()
+
         run {
             paint.textSize = 92f
 

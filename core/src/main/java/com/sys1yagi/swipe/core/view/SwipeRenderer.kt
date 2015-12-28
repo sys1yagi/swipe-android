@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextUtils
+import android.util.Log
 import com.sys1yagi.swipe.core.entity.swipe.*
 import com.sys1yagi.swipe.core.tool.ColorConverter
 import com.sys1yagi.swipe.core.util.ListUtils
@@ -16,8 +17,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
     internal var paint: Paint
 
     internal var oldPaint: Paint
-
-    //
+    
     lateinit var displaySize: Rect
 
     init {
@@ -161,38 +161,14 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             savePaint()
             paint.color = Color.BLACK
             var line = it
-            var style: Style? = null
-            when {
-                it.startsWith("####") -> {
-                    line = it.substring(5)
-                    style = styles.styles.get("####")
-                }
-                it.startsWith("###") -> {
-                    line = it.substring(4)
-                    style = styles.styles.get("###")
-                }
-                it.startsWith("##") -> {
-                    line = it.substring(3)
-                    style = styles.styles.get("##")
-                }
-                it.startsWith("#") -> {
-                    line = it.substring(2)
-                    style = styles.styles.get("#")
-                }
-                it.startsWith("*") -> {
-                    line = SwipeMarkdown.prefixes.get("-") + it.substring(1)
-                }
-                it.startsWith("-") -> {
-                    line = SwipeMarkdown.prefixes.get("-") + it.substring(1)
-                }
-                it.startsWith("```") -> {
-
-                }
-                it.startsWith("```+") -> {
-
-                }
-                else -> {
-
+            val markdownKey = extractMarkdownKey(it)
+            var style: Style? = styles.styles.get(markdownKey)
+            if (it.startsWith(markdownKey)) {
+                line = it.substring(markdownKey.length + 1)
+            }
+            when (markdownKey) {
+                "*", "-" -> {
+                    line = SwipeMarkdown.prefixes["-"] + line
                 }
             }
 
