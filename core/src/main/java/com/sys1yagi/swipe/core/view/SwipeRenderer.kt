@@ -17,7 +17,8 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
     internal var oldPaint: Paint
 
-    lateinit internal var displaySize: Rect
+    //
+    lateinit var displaySize: Rect
 
     init {
         this.paint = Paint()
@@ -34,10 +35,6 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             return
         }
         canvas.drawText(text, 20f, paint.fontSpacing * line, paint)
-    }
-
-    fun setDisplaySize(displaySize: Rect) {
-        this.displaySize = displaySize
     }
 
     fun draw(canvas: Canvas, scrollX: Int, scrollY: Int) {
@@ -89,19 +86,58 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         paint.set(oldPaint)
     }
 
-    fun measureMarkdownHeight(document: SwipeDocument, element: SwipeElement, markdown: List<String>): Int {
+    //markdown
+
+    fun extractMarkdownKey(line: String): String {
+        when {
+            line.startsWith("####") -> {
+                return "####"
+            }
+            line.startsWith("###") -> {
+                return "###"
+            }
+            line.startsWith("##") -> {
+                return "##"
+            }
+            line.startsWith("#") -> {
+                return "#"
+            }
+            line.startsWith("*") -> {
+                return "*"
+            }
+            line.startsWith("-") -> {
+                return "-"
+            }
+            line.startsWith("```") -> {
+                return "```"
+            }
+            line.startsWith("```+") -> {
+                return "```+"
+            }
+        }
+        return ""
+    }
+
+    fun measureMarkdownHeight(document: SwipeDocument, element: SwipeElement, markdown: List<String>): Float {
+        val styles = document.markdown
+
         val dimension = document.dimension
         val displayWidth = if (dimension[0] == 0) displaySize.width() else dimension[0]
         val displayHeight = if (dimension[1] == 0) displaySize.height() else dimension[1]
 
-        var markdownHeight = 0
+        var markdownHeight = 0.0f
 
         markdown.forEach {
-            oldPaint.set(paint)
+            savePaint()
 
+            styles.styles.get(extractMarkdownKey(it))?.let {
+                it.font?.let {
+                    paint.textSize = it.size.toFloat()
+                }
+            }
+            markdownHeight += paint.fontSpacing
 
-
-            paint.set(oldPaint)
+            restorePaint()
         }
 
         return markdownHeight
@@ -112,7 +148,6 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         val displayWidth = if (dimension[0] == 0) displaySize.width() else dimension[0]
         val displayHeight = if (dimension[1] == 0) displaySize.height() else dimension[1]
 
-
         val styles = document.markdown
         //element.element
         var startX = 0.0f
@@ -120,6 +155,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         var alignment = "left"
 
         val markdownHeight = measureMarkdownHeight(document, element, markdown)
+        startY = displayHeight / 2 - markdownHeight / 2
 
         markdown.forEach {
             savePaint()
@@ -128,19 +164,19 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             var style: Style? = null
             when {
                 it.startsWith("####") -> {
-                    line = it.substring(4)
+                    line = it.substring(5)
                     style = styles.styles.get("####")
                 }
                 it.startsWith("###") -> {
-                    line = it.substring(3)
+                    line = it.substring(4)
                     style = styles.styles.get("###")
                 }
                 it.startsWith("##") -> {
-                    line = it.substring(2)
+                    line = it.substring(3)
                     style = styles.styles.get("##")
                 }
                 it.startsWith("#") -> {
-                    line = it.substring(1)
+                    line = it.substring(2)
                     style = styles.styles.get("#")
                 }
                 it.startsWith("*") -> {
@@ -182,6 +218,8 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             restorePaint()
         }
     }
+
+    //element
 
     private fun renderElement(canvas: Canvas, document: SwipeDocument, element: SwipeElement) {
         val w = element.w

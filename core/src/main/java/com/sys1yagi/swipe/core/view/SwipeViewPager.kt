@@ -39,7 +39,7 @@ class SwipeViewPager(context: Context, attrs: AttributeSet) : ViewPager(context,
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        swipeRenderer.setDisplaySize(Rect(0, 0, w, h))
+        swipeRenderer.displaySize = Rect(0, 0, w, h)
     }
 
     private fun swapXY(ev: MotionEvent): MotionEvent {
