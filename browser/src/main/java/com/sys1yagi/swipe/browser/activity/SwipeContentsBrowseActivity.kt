@@ -6,20 +6,22 @@ import android.content.pm.ActivityInfo
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.WindowManager
 import android.widget.Toast
 import com.sys1yagi.browser.R
 import com.sys1yagi.browser.databinding.ActivitySwipeContentsBrowseBinding
-import com.sys1yagi.swipe.browser.view.SwipeViewPagerCountAdapter
 import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument
 import com.sys1yagi.swipe.core.tool.AssetsPathStore
 import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder
 import com.sys1yagi.swipe.core.tool.json.JsonConverter
 import com.sys1yagi.swipe.core.util.AssetsUtils
+import com.sys1yagi.swipe.core.view.SwipeViewPagerCountAdapter
 
 class SwipeContentsBrowseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         val swipeFileName = intent.getStringExtra(EXTRA_SWIPE_FILE_NAME)
         val swipeDocument = loadSwipeDocument(swipeFileName)
@@ -27,6 +29,8 @@ class SwipeContentsBrowseActivity : AppCompatActivity() {
         applyOrientation(swipeDocument)
 
         val binding = DataBindingUtil.setContentView<ActivitySwipeContentsBrowseBinding>(this, R.layout.activity_swipe_contents_browse)
+
+        supportActionBar.hide()
 
         binding.pager.adapter = SwipeViewPagerCountAdapter(swipeDocument!!.pages.size)
         binding.pager.setSwipeDocument(swipeDocument)
@@ -68,6 +72,4 @@ class SwipeContentsBrowseActivity : AppCompatActivity() {
             return intent
         }
     }
-
-
 }

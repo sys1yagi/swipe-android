@@ -1,4 +1,4 @@
-package com.sys1yagi.swipe.browser.view
+package com.sys1yagi.swipe.core.view
 
 import android.content.Context
 import android.graphics.Canvas

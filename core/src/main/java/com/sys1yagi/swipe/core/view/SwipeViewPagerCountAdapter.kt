@@ -1,4 +1,4 @@
-package com.sys1yagi.swipe.browser.view
+package com.sys1yagi.swipe.core.view
 
 import android.support.v4.view.PagerAdapter
 import android.view.View

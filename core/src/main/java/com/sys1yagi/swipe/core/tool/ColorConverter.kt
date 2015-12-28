@@ -4,7 +4,10 @@ import android.support.annotation.Size
 
 class ColorConverter {
     companion object {
-        fun toColorInt(@Size(min = 3) color: String): Int {
+        fun toColorInt(@Size(min = 3) color: String?): Int {
+            if (color == null) {
+                return 0
+            }
             var colorString = color
             if (colorString.startsWith("#")) {
                 colorString = colorString.substring(1)

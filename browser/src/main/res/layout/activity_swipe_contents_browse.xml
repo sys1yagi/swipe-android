@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".activity.MainActivity">
 
-        <com.sys1yagi.swipe.browser.view.SwipeViewPager
+        <com.sys1yagi.swipe.core.view.SwipeViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
