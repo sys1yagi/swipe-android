@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextUtils
-import android.util.Log
 import com.sys1yagi.swipe.core.entity.swipe.*
 import com.sys1yagi.swipe.core.tool.ColorConverter
 import com.sys1yagi.swipe.core.util.ListUtils
@@ -24,7 +23,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         this.paint = Paint()
         this.oldPaint = Paint()
 
-        paint.textSize = 60f
+        paint.textSize = 40f
         paint.color = Color.BLACK
         paint.alpha = 100
         paint.isAntiAlias = true
@@ -34,7 +33,12 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         if (!isDebugPrint) {
             return
         }
+        savePaint()
+        paint.textSize = 40f
+        paint.color = Color.BLACK
+        paint.alpha = 50
         canvas.drawText(text, 20f, paint.fontSpacing * line, paint)
+        restorePaint()
     }
 
     fun draw(canvas: Canvas, scrollX: Int, scrollY: Int) {
@@ -51,6 +55,14 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         debugPrint(canvas, "currentPage=" + currentPage, 1)
         debugPrint(canvas, "drawNextPage=" + drawNextPage, 2)
         debugPrint(canvas, "pageOffset0=" + -pageScrollY, 3)
+    }
+
+    fun scale(displaySize: Rect, dimension: IntArray): Float {
+        val scaleX = displaySize.width() /
+                if (dimension[0] == 0) displaySize.width().toFloat() else dimension[0].toFloat()
+        val scaleY = displaySize.height() /
+                if (dimension[1] == 0) displaySize.height().toFloat() else dimension[1].toFloat()
+        return Math.max(scaleX, scaleY)
     }
 
     private fun renderPage(canvas: Canvas, document: SwipeDocument, page: SwipePage, offsetX: Int, offsetY: Int) {
@@ -99,6 +111,9 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             line.startsWith("##") -> {
                 return "##"
             }
+            line.startsWith("#2") -> {
+                return "#2"
+            }
             line.startsWith("#") -> {
                 return "#"
             }
@@ -120,8 +135,9 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
     fun measureMarkdownHeight(document: SwipeDocument, element: SwipeElement, markdown: List<String>): Float {
         val styles = document.markdown
-
+        val scale = scale(displaySize, document.dimension)
         val dimension = document.dimension
+        val elementWidth = elementWidth(document, element)
         val displayWidth = if (dimension[0] == 0) displaySize.width() else dimension[0]
         val displayHeight = if (dimension[1] == 0) displaySize.height() else dimension[1]
 
@@ -132,10 +148,13 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
             styles.styles.get(extractMarkdownKey(it))?.let {
                 it.font?.let {
-                    paint.textSize = it.size.toFloat()
+                    paint.textSize = it.size.toFloat() * scale
                 }
             }
-            markdownHeight += paint.fontSpacing
+            val textWidth = paint.measureText(it)
+            val lines = (textWidth / elementWidth).toInt() + if (textWidth % elementWidth == 0f) 0 else 1
+
+            markdownHeight += paint.fontSpacing * lines
 
             restorePaint()
         }
@@ -143,10 +162,35 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         return markdownHeight
     }
 
+    fun elementWidth(document: SwipeDocument, element: SwipeElement): Float {
+        val w = if (TextUtils.isEmpty(element.w)) element.element else element.w
+        var width: Float
+
+        when {
+            TextUtils.isEmpty(w) -> {
+                width = 0f
+            }
+            w.endsWith("%") -> {
+                width = document.dimension[0] * (w.replace("%", "").toFloat() /
+                        100f) * scale(displaySize, document.dimension)
+            }
+            !w.matches("[0-9]+".toRegex()) -> {
+                val namedElement = document.elements[w]
+                width = elementWidth(document, namedElement)
+            }
+            else -> {
+                width = w.toFloat()
+            }
+        }
+        return width
+    }
+
     private fun renderMarkdown(canvas: Canvas, document: SwipeDocument, element: SwipeElement, markdown: List<String>) {
         val dimension = document.dimension
-        val displayWidth = if (dimension[0] == 0) displaySize.width() else dimension[0]
-        val displayHeight = if (dimension[1] == 0) displaySize.height() else dimension[1]
+        val scale = scale(displaySize, document.dimension)
+        val elementWidth = elementWidth(document, element)
+        val displayWidth = displaySize.width()
+        val displayHeight = displaySize.height()
 
         val styles = document.markdown
         //element.element
@@ -162,7 +206,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             paint.color = Color.BLACK
             var line = it
             val markdownKey = extractMarkdownKey(it)
-            var style: Style? = styles.styles.get(markdownKey)
+            var style: Style? = styles.styles[markdownKey]
             if (it.startsWith(markdownKey)) {
                 line = it.substring(markdownKey.length + 1)
             }
@@ -174,7 +218,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
             style?.let {
                 it.font?.let {
-                    paint.textSize = it.size.toFloat()
+                    paint.textSize = it.size.toFloat() * scale
                 }
                 paint.color = ColorConverter.toColorInt(it.color)
 
@@ -185,14 +229,34 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             }
 
             val width = paint.measureText(line)
-            if ("center".equals(alignment)) {
-                startX = displaySize.width() / 2 - width / 2
+            val lines = (width / elementWidth).toInt() + if (width % elementWidth == 0f) 0 else 1
+
+            var pair: Pair<String, String> = Pair("", line)
+            for (i in 1..lines) {
+                if ("center".equals(alignment)) {
+                    startX = displaySize.width() / 2 - width / 2
+                } else {
+                    startX = displayWidth / 2 - elementWidth / 2
+                }
+
+                pair = split(pair.second, elementWidth, paint)
+                canvas.drawText(pair.first, startX, startY + paint.fontSpacing, paint)
+                startY += paint.fontSpacing
             }
 
-            canvas.drawText(line, startX, startY + paint.fontSpacing, paint)
-            startY += paint.fontSpacing
             restorePaint()
         }
+    }
+
+    fun split(line: String, width: Float, paint: Paint): Pair<String, String> {
+        var totalWidth = 0f
+        for (i in 0..line.length - 1) {
+            totalWidth += paint.measureText(line.get(i).toString())
+            if (totalWidth > width) {
+                return Pair(line.substring(0, i), line.substring(i))
+            }
+        }
+        return Pair(line, "")
     }
 
     //element
