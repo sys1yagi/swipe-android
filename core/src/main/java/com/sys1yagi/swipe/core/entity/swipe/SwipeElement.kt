@@ -1,9 +1,8 @@
-package com.sys1yagi.swipe.core.entity.swipe;
+package com.sys1yagi.swipe.core.entity.swipe
 
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import com.google.gson.JsonObject
+import com.google.gson.annotations.SerializedName
+import java.util.*
 
 /**
  * Element properties
@@ -49,259 +48,173 @@ import java.util.List;
  * action (String): Specifies the Action
  * repeat (Bool): Repeat rule for the element. The default is false.
  */
-public class SwipeElement {
+class SwipeElement : Cloneable {
 
     @SerializedName("id")
-    String id;
+    var id: String? = null
 
     @SerializedName("element")
-    String element;
+    var element: String = ""
 
     @SerializedName("x")
-    String x;
+    var x: String = "0"
 
     @SerializedName("y")
-    String y;
+    var y: String = "0"
 
     @SerializedName("pos")
-    String pos;
+    var pos: Array<String>? = null
 
     @SerializedName("anchor")
-    String anchor;
+    var anchor: Array<String>? = null
 
     @SerializedName("w")
-    String w;
+    var w: String = "0"
 
     @SerializedName("h")
-    String h;
+    var h: String = "0"
 
     @SerializedName("bc")
-    String bc;
+    var bc: String? = null
 
     @SerializedName("clip")
-    boolean clip;
+    var isClip: Boolean = false
 
     @SerializedName("borderWidth")
-    float borderWidth;
+    var borderWidth: Float = 0.toFloat()
 
     @SerializedName("borderColor")
-    String borderColor;
+    var borderColor: String? = null
 
     @SerializedName("cornerRadius ")
-    float cornerRadius;
+    var cornerRadius: Float = 0.toFloat()
 
     @SerializedName("opacity")
-    float opacity;
+    var opacity: Float = 0.toFloat()
+        internal set
 
     @SerializedName("rotate")
-    String rotate;
+    var rotate: String = "0"
 
     @SerializedName("scale")
-    String scale;
+    var scale: String = "[1, 1]"
 
     @SerializedName("translate")
-    float[] translate;
+    var translate: FloatArray = FloatArray(2, { 1f })
 
     @SerializedName("text")
-    String text;
+    var text: String = ""
 
     @SerializedName("markdown")
-    List<String> markdown;
+    var markdown: List<String> = listOf()
 
     @SerializedName("textAlign")
-    String textAlign;
+    var textAlign: String = "center"
 
     @SerializedName("fontSize")
-    String fontSize;
+    var fontSize: String = ""
 
     @SerializedName("textColor")
-    String textColor;
+    var textColor: String = "#000000"
 
     @SerializedName("img")
-    String img;
+    var img: String = ""
 
     @SerializedName("mask")
-    String mask;
+    var mask: String = ""
 
     @SerializedName("sprite")
-    String sprite;
+    var sprite: String = ""
 
     @SerializedName("slice")
-    int[] slice;
+    var slice: IntArray? = null
 
     @SerializedName("slot")
-    int[] slot;
+    var slot: IntArray? = null
 
     // TODO
     @SerializedName("path")
-    String path;
+    var path: String? = null
 
     @SerializedName("video")
-    String video;
+    var video: String? = null
 
     @SerializedName("radio")
-    String radio;
+    var radio: String? = null
 
     @SerializedName("stream")
-    boolean stream;
+    var isStream: Boolean = false
+        internal set
 
     // TODO
     @SerializedName("to")
-    JsonObject to;
+    var to: JsonObject? = null
 
     @SerializedName("loop")
-    JsonObject loop;
+    var loop: JsonObject? = null
 
     @SerializedName("tiling")
-    boolean tiling;
+    var isTiling: Boolean = false
 
     @SerializedName("action")
-    String action;
+    var action: String? = null
 
     @SerializedName("repeat")
-    boolean repeat;
+    var isRepeat: Boolean = false
 
-    public String getId() {
-        return id;
-    }
+    @SerializedName("elements")
+    var elements: List<SwipeElement>? = null
 
-    public String getElement() {
-        return element;
-    }
 
-    public String getX() {
-        return x;
-    }
+    override public fun clone(): SwipeElement {
+        val clone = SwipeElement()
 
-    public String getY() {
-        return y;
-    }
+        clone.id = id
+        clone.element = element
+        clone.x = x
+        clone.y = y
+        clone.pos = pos?.copyOf()
+        clone.anchor = anchor?.copyOf()
+        clone.w = w
+        clone.h = h
+        clone.bc = bc
+        clone.isClip = isClip
+        clone.borderWidth = borderWidth
+        clone.borderColor = borderColor
+        clone.cornerRadius = cornerRadius
+        clone.opacity = opacity
+        clone.rotate = rotate
+        clone.scale = scale
+        clone.translate = translate.copyOf()
+        clone.text = text
+        clone.markdown = ArrayList<String>(markdown)
+        clone.textAlign = textAlign
+        clone.fontSize = fontSize
+        clone.textColor = textColor
+        clone.img = img
+        clone.mask = mask
+        clone.sprite = sprite
+        clone.slice = slice?.copyOf()
+        clone.slot = slot?.copyOf()
+        clone.path = path
+        clone.video = video
+        clone.radio = radio
+        clone.isStream = isStream
 
-    public String getPos() {
-        return pos;
-    }
+        //TODO
+        //        clone.to = JsonParser().parse(to?.toString()).asJsonObject
+        //        clone.loop = JsonParser().parse(loop?.toString()).asJsonObject
+        clone.isTiling = isTiling
+        clone.action = action
+        clone.isRepeat = isRepeat
 
-    public String getAnchor() {
-        return anchor;
-    }
-
-    public String getW() {
-        return w;
-    }
-
-    public String getH() {
-        return h;
-    }
-
-    public String getBc() {
-        return bc;
-    }
-
-    public boolean isClip() {
-        return clip;
-    }
-
-    public float getBorderWidth() {
-        return borderWidth;
-    }
-
-    public String getBorderColor() {
-        return borderColor;
-    }
-
-    public float getCornerRadius() {
-        return cornerRadius;
-    }
-
-    public float getOpacity() {
-        return opacity;
-    }
-
-    public String getRotate() {
-        return rotate;
-    }
-
-    public String getScale() {
-        return scale;
-    }
-
-    public float[] getTranslate() {
-        return translate;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public List<String> getMarkdown() {
-        return markdown;
-    }
-
-    public String getTextAlign() {
-        return textAlign;
-    }
-
-    public String getFontSize() {
-        return fontSize;
-    }
-
-    public String getTextColor() {
-        return textColor;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public String getMask() {
-        return mask;
-    }
-
-    public String getSprite() {
-        return sprite;
-    }
-
-    public int[] getSlice() {
-        return slice;
-    }
-
-    public int[] getSlot() {
-        return slot;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getVideo() {
-        return video;
-    }
-
-    public String getRadio() {
-        return radio;
-    }
-
-    public boolean isStream() {
-        return stream;
-    }
-
-    public JsonObject getTo() {
-        return to;
-    }
-
-    public JsonObject getLoop() {
-        return loop;
-    }
-
-    public boolean isTiling() {
-        return tiling;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public boolean isRepeat() {
-        return repeat;
+        clone.elements = elements?.let {
+            val cloneElements = ArrayList<SwipeElement>()
+            it.forEach {
+                cloneElements.add(it.clone() as SwipeElement)
+            }
+            cloneElements
+        } ?: null
+        return clone
     }
 }

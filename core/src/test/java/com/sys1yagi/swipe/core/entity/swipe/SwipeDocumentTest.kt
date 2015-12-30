@@ -34,12 +34,12 @@ class SwipeDocumentTest {
         assertThat(elements).isNotNull()
 
         assertThat(elements.get("body")).isNotNull()
-        assertThat(elements.get("body").getX()).isEqualTo("center")
-        assertThat(elements.get("body").getW()).isEqualTo("66.7%")
-        assertThat(elements.get("code").getX()).isEqualTo("4%")
-        assertThat(elements.get("code").getY()).isEqualTo("4%")
-        assertThat(elements.get("code").getW()).isEqualTo("44%")
-        assertThat(elements.get("code").getH()).isEqualTo("92%")
+        assertThat(elements.get("body").x).isEqualTo("center")
+        assertThat(elements.get("body").w).isEqualTo("66.7%")
+        assertThat(elements.get("code").x).isEqualTo("4%")
+        assertThat(elements.get("code").y).isEqualTo("4%")
+        assertThat(elements.get("code").w).isEqualTo("44%")
+        assertThat(elements.get("code").h).isEqualTo("92%")
 
         assertThat(swipe.getPaths()).isNull()
 

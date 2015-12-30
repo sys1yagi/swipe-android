@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextUtils
+import android.util.Log
 import com.sys1yagi.swipe.core.entity.swipe.*
 import com.sys1yagi.swipe.core.tool.ColorConverter
 import com.sys1yagi.swipe.core.util.ListUtils
@@ -136,25 +137,24 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
     fun measureMarkdownHeight(document: SwipeDocument, element: SwipeElement, markdown: List<String>): Float {
         val styles = document.markdown
         val scale = scale(displaySize, document.dimension)
-        val dimension = document.dimension
         val elementWidth = elementWidth(document, element)
-        val displayWidth = if (dimension[0] == 0) displaySize.width() else dimension[0]
-        val displayHeight = if (dimension[1] == 0) displaySize.height() else dimension[1]
 
         var markdownHeight = 0.0f
+
+        Log.d("moge", "calc------------------------------ $elementWidth")
 
         markdown.forEach {
             savePaint()
 
-            styles.styles.get(extractMarkdownKey(it))?.let {
+            styles.styles[extractMarkdownKey(it)]?.let {
                 it.font?.let {
                     paint.textSize = it.size.toFloat() * scale
                 }
             }
             val textWidth = paint.measureText(it)
             val lines = (textWidth / elementWidth).toInt() + if (textWidth % elementWidth == 0f) 0 else 1
-
-            markdownHeight += paint.fontSpacing * lines
+            Log.d("moge", "lines $lines : $it")
+            markdownHeight += (paint.fontSpacing * lines) + (paint.letterSpacing * lines)
 
             restorePaint()
         }
@@ -163,7 +163,10 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
     }
 
     fun elementWidth(document: SwipeDocument, element: SwipeElement): Float {
-        val w = if (TextUtils.isEmpty(element.w)) element.element else element.w
+        var w = element.w
+        if ( "0".equals(w)) {
+            w = element.element
+        }
         var width: Float
 
         when {
@@ -261,13 +264,42 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
     //element
 
-    private fun renderElement(canvas: Canvas, document: SwipeDocument, element: SwipeElement) {
-        val w = element.w
+    //TODO parse時に呼び出す
+    fun inheritElement(element: SwipeElement, parent: SwipeElement): SwipeElement {
+        val inherited = parent.clone()
+
+        if (!"0".equals(element.w)) {
+            inherited.w = element.w
+        }
+        if (!"0".equals(element.h)) {
+            inherited.h = element.h
+        }
+        if (!"0".equals(element.x)) {
+            inherited.x = element.x
+        }
+        if (!"0".equals(element.h)) {
+            inherited.x = element.x
+        }
+
+        return inherited
+    }
+
+    private fun renderElement(canvas: Canvas, document: SwipeDocument, element: SwipeElement, parent: SwipeElement? = null) {
+
+        val namedElement = swipeDocument.elements[element.element]
+
+        //TODO inherit
+
         if (!ListUtils.isEmpty(element.markdown)) {
             renderMarkdown(canvas, document, element, element.markdown)
         }
         if (!TextUtils.isEmpty(element.text)) {
 
+        }
+        element.elements?.let {
+            it.forEach {
+                renderElement(canvas, document, it, element)
+            }
         }
     }
 
