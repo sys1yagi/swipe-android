@@ -162,9 +162,11 @@ class SwipeElement : Cloneable {
     @SerializedName("repeat")
     var isRepeat: Boolean = false
 
+    @SerializedName("shadow")
+    var shadow: Shadow? = null
+
     @SerializedName("elements")
     var elements: List<SwipeElement>? = null
-
 
     override public fun clone(): SwipeElement {
         val clone = SwipeElement()
@@ -207,6 +209,7 @@ class SwipeElement : Cloneable {
         clone.isTiling = isTiling
         clone.action = action
         clone.isRepeat = isRepeat
+        clone.shadow = shadow?.clone()
 
         clone.elements = elements?.let {
             val cloneElements = ArrayList<SwipeElement>()
@@ -233,6 +236,9 @@ class SwipeElement : Cloneable {
         }
         if (!"0".equals(y)) {
             inherited.y = y
+        }
+        shadow?.let {
+            inherited.shadow = it.clone()
         }
 
         inherited.cornerRadius = cornerRadius

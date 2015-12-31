@@ -38,7 +38,9 @@ class SwipeElementTest {
         assertThat(back.w).isEqualTo("128")
         assertThat(back.h).isEqualTo("176")
         assertThat(back.cornerRadius).isEqualTo(12f)
-
-        //TODO shadow
+        assertThat(back.shadow?.opacity).isEqualTo(0.2f)
+        assertThat(back.shadow?.offset!![0]).isEqualTo(0)
+        assertThat(back.shadow?.offset!![1]).isEqualTo(8)
+        assertThat(back.shadow?.radius).isEqualTo(8)
     }
 }
