@@ -86,7 +86,7 @@ class SwipeElement : Cloneable {
     @SerializedName("borderColor")
     var borderColor: String? = null
 
-    @SerializedName("cornerRadius ")
+    @SerializedName("cornerRadius")
     var cornerRadius: Float = 0.toFloat()
 
     @SerializedName("opacity")
@@ -216,5 +216,45 @@ class SwipeElement : Cloneable {
             cloneElements
         } ?: null
         return clone
+    }
+
+    fun inheritElement(parent: SwipeElement): SwipeElement {
+        val inherited = parent.clone()
+
+        //
+        if (!"0".equals(w)) {
+            inherited.w = w
+        }
+        if (!"0".equals(h)) {
+            inherited.h = h
+        }
+        if (!"0".equals(x)) {
+            inherited.x = x
+        }
+        if (!"0".equals(y)) {
+            inherited.y = y
+        }
+
+        inherited.cornerRadius = cornerRadius
+
+        val elements = elements?.let { ArrayList<SwipeElement>(elements) } ?: ArrayList<SwipeElement>()
+        parent.elements?.forEach {
+            var parentElement: SwipeElement? = it
+
+            for (i in 0..elements.size - 1) {
+                if (elements[i].id?.let { it.equals(parentElement?.id) } ?: false) {
+                    val e = elements[i].inheritElement(parentElement!!)
+                    elements[i] = e
+                    parentElement = null
+                    break
+                }
+            }
+            parentElement?.let {
+                elements.add(it)
+            }
+        }
+        inherited.elements = elements
+
+        return inherited
     }
 }

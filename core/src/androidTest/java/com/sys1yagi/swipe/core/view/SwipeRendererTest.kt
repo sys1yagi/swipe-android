@@ -1,22 +1,5 @@
 package com.sys1yagi.swipe.core.view
 
-import android.content.Context
-import android.graphics.Paint
-import android.graphics.Rect
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
-import android.util.DisplayMetrics
-import android.view.WindowManager
-import com.sys1yagi.swipe.core.entity.swipe.SwipeDocument
-import com.sys1yagi.swipe.core.testtool.ServiceLocator
-import com.sys1yagi.swipe.core.testtool.TestAssetsUtils
-import com.sys1yagi.swipe.core.tool.SwipeEntityDecoder
-import com.sys1yagi.swipe.core.tool.json.JsonConverter
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-
 
 @RunWith(AndroidJUnit4::class)
 class SwipeRendererTest {
@@ -91,19 +74,5 @@ class SwipeRendererTest {
         assertThat(renderer.elementWidth(swipeDocument, swipeDocument.pages[0].elements[0]))
                 .isEqualTo(expected)
 
-    }
-
-    @Test
-    fun inheritElement() {
-        renderer.displaySize = Rect(0, 0, 1794, 1080)
-        val element = swipeDocument.pages[0].elements[1]
-        val namedElement = swipeDocument.elements["logo"]
-
-        val inherited = renderer.inheritElement(element, namedElement)
-
-        assertThat(inherited)
-                .isNotNull()
-        assertThat(inherited.x).isEqualTo("300")
-        assertThat(inherited.w).isEqualTo("192")
     }
 }

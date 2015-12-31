@@ -264,26 +264,6 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
     //element
 
-    //TODO parse時に呼び出す
-    fun inheritElement(element: SwipeElement, parent: SwipeElement): SwipeElement {
-        val inherited = parent.clone()
-
-        if (!"0".equals(element.w)) {
-            inherited.w = element.w
-        }
-        if (!"0".equals(element.h)) {
-            inherited.h = element.h
-        }
-        if (!"0".equals(element.x)) {
-            inherited.x = element.x
-        }
-        if (!"0".equals(element.h)) {
-            inherited.x = element.x
-        }
-
-        return inherited
-    }
-
     private fun renderElement(canvas: Canvas, document: SwipeDocument, element: SwipeElement, parent: SwipeElement? = null) {
 
         val namedElement = swipeDocument.elements[element.element]
