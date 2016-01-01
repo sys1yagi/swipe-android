@@ -241,6 +241,8 @@ class SwipeElement : Cloneable {
             inherited.shadow = it.clone()
         }
 
+        inherited.markdown = ArrayList<String>(markdown)
+
         inherited.cornerRadius = cornerRadius
 
         val elements = elements?.let { ArrayList<SwipeElement>(elements) } ?: ArrayList<SwipeElement>()

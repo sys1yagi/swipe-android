@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.text.TextUtils
-import android.util.Log
 import com.sys1yagi.swipe.core.entity.swipe.*
 import com.sys1yagi.swipe.core.tool.ColorConverter
 import com.sys1yagi.swipe.core.util.ListUtils
@@ -137,11 +136,9 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
     fun measureMarkdownHeight(document: SwipeDocument, element: SwipeElement, markdown: List<String>): Float {
         val styles = document.markdown
         val scale = scale(displaySize, document.dimension)
-        val elementWidth = elementWidth(document, element)
+        val elementWidth = measureElement(document, element, { it.w })
 
         var markdownHeight = 0.0f
-
-        Log.d("moge", "calc------------------------------ $elementWidth")
 
         markdown.forEach {
             savePaint()
@@ -153,7 +150,6 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             }
             val textWidth = paint.measureText(it)
             val lines = (textWidth / elementWidth).toInt() + if (textWidth % elementWidth == 0f) 0 else 1
-            Log.d("moge", "lines $lines : $it")
             markdownHeight += (paint.fontSpacing * lines) + (paint.letterSpacing * lines)
 
             restorePaint()
@@ -162,36 +158,37 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         return markdownHeight
     }
 
-    fun elementWidth(document: SwipeDocument, element: SwipeElement): Float {
-        var w = element.w
-        if ( "0".equals(w)) {
-            w = element.element
+    fun measureElement(document: SwipeDocument, element: SwipeElement, valueExtractor: (SwipeElement) -> String): Float {
+        var value = valueExtractor(element)
+        if ( "0".equals(value)) {
+            value = element.element
         }
-        var width: Float
+        var floatValue: Float
+        val scale = scale(displaySize, document.dimension)
 
         when {
-            TextUtils.isEmpty(w) -> {
-                width = 0f
+            TextUtils.isEmpty(value) -> {
+                floatValue = 0f
             }
-            w.endsWith("%") -> {
-                width = document.dimension[0] * (w.replace("%", "").toFloat() /
-                        100f) * scale(displaySize, document.dimension)
+            value.endsWith("%") -> {
+                floatValue = document.dimension[0] * (value.replace("%", "").toFloat() / 100f) *
+                        scale
             }
-            !w.matches("[0-9]+".toRegex()) -> {
-                val namedElement = document.elements[w]
-                width = elementWidth(document, namedElement)
+            !value.matches("[0-9]+".toRegex()) -> {
+                val namedElement = document.elements[value]
+                floatValue = measureElement(document, namedElement, valueExtractor)
             }
             else -> {
-                width = w.toFloat()
+                floatValue = value.toFloat() * scale
             }
         }
-        return width
+        return floatValue
     }
 
     private fun renderMarkdown(canvas: Canvas, document: SwipeDocument, element: SwipeElement, markdown: List<String>) {
         val dimension = document.dimension
         val scale = scale(displaySize, document.dimension)
-        val elementWidth = elementWidth(document, element)
+        val elementWidth = measureElement(document, element, { it.w })
         val displayWidth = displaySize.width()
         val displayHeight = displaySize.height()
 
@@ -263,12 +260,20 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
     }
 
     //element
+    fun inheritElementIfNeeded(document: SwipeDocument, swipeElement: SwipeElement): SwipeElement {
+        var element = swipeElement
+        document.elements[swipeElement.element]?.let {
+            element = element.inheritElement(it)
+        }
+        return element
+    }
 
-    private fun renderElement(canvas: Canvas, document: SwipeDocument, element: SwipeElement, parent: SwipeElement? = null) {
+    private fun renderElement(canvas: Canvas, document: SwipeDocument, swipeElement: SwipeElement, parent: SwipeElement? = null) {
 
-        val namedElement = swipeDocument.elements[element.element]
+        //TODO Change the timing of the inheritance.
+        var element = inheritElementIfNeeded(document, swipeElement)
 
-        //TODO inherit
+        renderElementBackground(canvas, document, element)
 
         if (!ListUtils.isEmpty(element.markdown)) {
             renderMarkdown(canvas, document, element, element.markdown)
@@ -276,6 +281,8 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         if (!TextUtils.isEmpty(element.text)) {
 
         }
+
+
         element.elements?.let {
             it.forEach {
                 renderElement(canvas, document, it, element)
@@ -288,6 +295,34 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         for (element in page.elements) {
             renderElement(canvas, document, element)
         }
+    }
+
+    fun calculateElementRect(document: SwipeDocument, element: SwipeElement, region: Rect): Rect {
+        val rect = Rect()
+
+        val w = measureElement(document, element, { it.w }).toInt()
+        val h = measureElement(document, element, { it.h }).toInt()
+        val x = measureElement(document, element, { it.x }).toInt()
+        val y = measureElement(document, element, { it.y }).toInt()
+
+        rect.set(region.left + x, region.top + y, region.left + x + w, region.top + y + h)
+
+        return rect
+    }
+
+    private fun renderElementBackground(canvas: Canvas, document: SwipeDocument, element: SwipeElement) {
+        if (TextUtils.isEmpty(element.bc)) {
+            return
+        }
+        savePaint()
+        paint.color = ColorConverter.toColorInt(element.bc)
+
+        val scale = scale(displaySize, document.dimension)
+
+        val area = Rect(element.x.toInt(), element.y.toInt(), element.w.toInt(), element.h.toInt())
+
+        canvas.drawRect(area, paint)
+        restorePaint()
     }
 
     private fun renderBackground(canvas: Canvas, page: SwipePage) {
