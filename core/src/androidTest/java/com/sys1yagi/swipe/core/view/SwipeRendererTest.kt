@@ -89,7 +89,7 @@ class SwipeRendererTest {
         val expected = (1280f * 66.7f / 100f) * scale
 
         val element = swipeDocument.pages[0].elements[0]
-        assertThat(renderer.measureElement(swipeDocument, element, { it.w }))
+        assertThat(renderer.measureElement(swipeDocument, element, renderer.dimensionWidth(renderer.displaySize, swipeDocument.dimension), { it.w }))
                 .isEqualTo(expected)
     }
 
@@ -99,7 +99,7 @@ class SwipeRendererTest {
         val scale = 1794f / 1280f
         val expected = 176f * scale
         val element = swipeDocument.pages[0].elements[1].elements!![0]
-        assertThat(renderer.measureElement(swipeDocument, element, { it.h }))
+        assertThat(renderer.measureElement(swipeDocument, element, renderer.dimensionHeight(renderer.displaySize, swipeDocument.dimension), { it.h }))
                 .isEqualTo(expected)
     }
 
@@ -120,6 +120,44 @@ class SwipeRendererTest {
         assertThat(rect.bottom).isEqualTo((110 * scale).toInt())
         assertThat(rect.width()).isEqualTo((100 * scale).toInt())
         assertThat(rect.height()).isEqualTo((100 * scale).toInt())
+    }
+
+    @Test
+    fun calculateElementRectCenter() {
+        renderer.displaySize = Rect(0, 0, 1794, 1080)
+        val scale = 1794f / 1280f
+        val element = SwipeElement()
+        val size = "100"
+        element.x = "center"
+        element.y = "center"
+        element.w = size
+        element.h = size
+        val sizeInt = size.toInt()
+        val expected = arrayOf(
+                (renderer.displaySize.width() / 2 - (sizeInt * scale) / 2).toInt(),
+                (renderer.displaySize.height() / 2 - (sizeInt * scale) / 2).toInt(),
+                ((renderer.displaySize.width() / 2 - (sizeInt * scale) / 2).toInt() + (sizeInt * scale).toInt()),
+                ((renderer.displaySize.height() / 2 - (sizeInt * scale) / 2).toInt() + (sizeInt * scale).toInt())
+        )
+
+        val rect = renderer.calculateElementRect(swipeDocument, element, renderer.displaySize)
+        assertThat(rect.left).isEqualTo(expected[0])
+        assertThat(rect.top).isEqualTo(expected[1])
+        assertThat(rect.right).isEqualTo(expected[2])
+        assertThat(rect.bottom).isEqualTo(expected[3])
+    }
+
+    @Test
+    fun calculateElement3() {
+        renderer.displaySize = Rect(0, 0, 1794, 1080)
+        val scale = 1794f / 1280f
+
+        val rect = renderer.calculateElementRect(swipeDocument, swipeDocument.pages[0].elements[1], renderer.displaySize)
+
+        assertThat(rect.left).isEqualTo((300 * scale).toInt())
+        assertThat(rect.top).isEqualTo(0)
+        assertThat(rect.right).isEqualTo((492 * scale).toInt())
+        assertThat(rect.bottom).isEqualTo(1080)
     }
 
 }
