@@ -136,6 +136,9 @@ class SwipeElement : Cloneable {
     @SerializedName("path")
     var path: String? = null
 
+    @SerializedName("fillColor")
+    var fillColor: String? = null
+
     @SerializedName("video")
     var video: String? = null
 
@@ -199,6 +202,7 @@ class SwipeElement : Cloneable {
         clone.slice = slice?.copyOf()
         clone.slot = slot?.copyOf()
         clone.path = path
+        clone.fillColor = fillColor
         clone.video = video
         clone.radio = radio
         clone.isStream = isStream

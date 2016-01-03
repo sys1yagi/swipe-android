@@ -152,12 +152,30 @@ class SwipeRendererTest {
         renderer.displaySize = Rect(0, 0, 1794, 1080)
         val scale = 1794f / 1280f
 
-        val rect = renderer.calculateElementRect(swipeDocument, swipeDocument.pages[0].elements[1], renderer.displaySize)
+        run {
+            val rect = renderer.calculateElementRect(swipeDocument, swipeDocument.pages[0].elements[1], renderer.displaySize)
 
-        assertThat(rect.left).isEqualTo((300 * scale).toInt())
-        assertThat(rect.top).isEqualTo(0)
-        assertThat(rect.right).isEqualTo((492 * scale).toInt())
-        assertThat(rect.bottom).isEqualTo(1080)
+            assertThat(rect.left).isEqualTo((300 * scale).toInt())
+            assertThat(rect.top).isEqualTo(0)
+            assertThat(rect.right).isEqualTo((492 * scale).toInt())
+            assertThat(rect.bottom).isEqualTo(1080)
+        }
+        run {
+            val logo = renderer.inheritElementIfNeeded(swipeDocument, swipeDocument.pages[0].elements[1])
+            val element = logo.elements!![1]
+            val rect = renderer.calculateElementRect(swipeDocument, element,
+                    Rect(
+                            (300 * scale).toInt(),
+                            ((1080 / 2 - 192 / 2) * scale).toInt(),
+                            (492 * scale).toInt(),
+                            ((1080 / 2 + 192 / 2) * scale).toInt()
+                    )
+            )
+            assertThat(rect.left).isEqualTo(((300 * scale).toInt() + ((192 - 128) / 2) * scale).toInt())
+            assertThat(rect.top).isEqualTo(((1080 / 2 - 176 / 2) * scale).toInt())
+            assertThat(rect.right).isEqualTo(rect.left + (128 * scale).toInt())
+            assertThat(rect.bottom).isEqualTo(((1080 / 2) * scale).toInt() + ((176 / 2) * scale).toInt())
+        }
     }
 
 }

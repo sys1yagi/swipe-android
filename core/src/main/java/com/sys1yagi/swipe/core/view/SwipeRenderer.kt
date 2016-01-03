@@ -1,9 +1,6 @@
 package com.sys1yagi.swipe.core.view
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import android.text.TextUtils
 import com.sys1yagi.swipe.core.entity.swipe.*
 import com.sys1yagi.swipe.core.tool.ColorConverter
@@ -16,7 +13,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
     internal var paint: Paint
 
     internal var oldPaint: Paint
-    
+
     lateinit var displaySize: Rect
 
     init {
@@ -312,15 +309,26 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
     private fun renderElement(canvas: Canvas, document: SwipeDocument, swipeElement: SwipeElement, region: Rect) {
 
+        var renderCanvas = canvas;
+
+        var clipBitmap: Bitmap? = null
+
         //TODO Change the timing of the inheritance.
         var element = inheritElementIfNeeded(document, swipeElement)
 
-        val rect = calculateElementRect(document, swipeElement, region)
+        var rect = calculateElementRect(document, swipeElement, region)
+        var renderRect = rect
+        if (element.isClip) {
+            clipBitmap = Bitmap.createBitmap(rect.width(), rect.height(), Bitmap.Config.ARGB_8888)
+            renderCanvas = Canvas(clipBitmap)
+            renderRect = Rect(0, 0, clipBitmap.width, clipBitmap.height)
+        }
 
-        renderElementBackground(canvas, document, element, rect)
+        renderElementBackground(renderCanvas, document, element, renderRect)
+        renderElementFillColor(renderCanvas, document, element, renderRect)
 
         if (!ListUtils.isEmpty(element.markdown)) {
-            renderMarkdown(canvas, document, element, element.markdown)
+            renderMarkdown(renderCanvas, document, element, element.markdown)
         }
         if (!TextUtils.isEmpty(element.text)) {
 
@@ -328,8 +336,11 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
         element.elements?.let {
             it.forEach {
-                renderElement(canvas, document, it, rect)
+                renderElement(renderCanvas, document, it, renderRect)
             }
+        }
+        if (clipBitmap != null) {
+            canvas.drawBitmap(clipBitmap, renderRect, rect, paint)
         }
     }
 
@@ -353,14 +364,27 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         return rect
     }
 
-    private fun renderElementBackground(canvas: Canvas, document: SwipeDocument, element: SwipeElement, displaySize: Rect) {
+    private fun renderElementFillColor(canvas: Canvas, document: SwipeDocument, element: SwipeElement, region: Rect) {
+        if (TextUtils.isEmpty(element.fillColor)) {
+            return
+        }
+        savePaint()
+        paint.color = ColorConverter.toColorInt(element.fillColor)
+
+        val area = calculateElementRect(document, element, region)
+
+        canvas.drawRect(area, paint)
+        restorePaint()
+    }
+
+    private fun renderElementBackground(canvas: Canvas, document: SwipeDocument, element: SwipeElement, region: Rect) {
         if (TextUtils.isEmpty(element.bc)) {
             return
         }
         savePaint()
         paint.color = ColorConverter.toColorInt(element.bc)
 
-        val area = calculateElementRect(document, element, displaySize)
+        val area = calculateElementRect(document, element, region)
 
         canvas.drawRect(area, paint)
         restorePaint()
