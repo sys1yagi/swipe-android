@@ -145,15 +145,20 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
         markdown.forEach {
             savePaint()
-
-            styles.styles[extractMarkdownKey(it)]?.let {
+            var line = it
+            val markdownKey = extractMarkdownKey(line)
+            styles.styles[markdownKey]?.let {
                 it.font?.let {
                     paint.textSize = it.size.toFloat() * scale
                 }
             }
-            val textWidth = paint.measureText(it)
-            val lines = (textWidth / elementWidth).toInt() + if (textWidth % elementWidth == 0f) 0 else 1
-            markdownHeight += (paint.fontSpacing * lines) + (paint.letterSpacing * lines)
+            if (line.startsWith(markdownKey)) {
+                line = line.substring(markdownKey.length + 1)
+            }
+
+            val textWidth = paint.measureText(line)
+            val lines = Math.floor(textWidth.toDouble() / elementWidth.toDouble()).toInt() + if (textWidth % elementWidth == 0f) 0 else 1
+            markdownHeight += (paint.fontSpacing * lines)
 
             restorePaint()
         }
@@ -230,7 +235,6 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         val elementWidth = measureElement(document, element, dimensionWidth(displaySize, dimension), { it.w })
         val displayWidth = displaySize.width()
         val displayHeight = displaySize.height()
-
         val styles = document.markdown
         //element.element
         var startX = 0.0f
@@ -278,9 +282,10 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
                     startX = displayWidth / 2 - elementWidth / 2
                 }
 
+                val fontMetrics = paint.fontMetrics
                 pair = split(pair.second, elementWidth, paint)
-                canvas.drawText(pair.first, startX, startY + paint.fontSpacing, paint)
-                startY += paint.fontSpacing
+                canvas.drawText(pair.first, startX, startY + paint.fontSpacing - fontMetrics.bottom, paint)
+                startY += (paint.fontSpacing)
             }
 
             restorePaint()
@@ -290,9 +295,9 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
     fun split(line: String, width: Float, paint: Paint): Pair<String, String> {
         var totalWidth = 0f
         for (i in 0..line.length - 1) {
-            totalWidth += paint.measureText(line.get(i).toString())
+            totalWidth += paint.measureText(line[i].toString()) + paint.letterSpacing
             if (totalWidth > width) {
-                return Pair(line.substring(0, i), line.substring(i))
+                return Pair(line.substring(0, i - 1), line.substring(i - 1))
             }
         }
         return Pair(line, "")
