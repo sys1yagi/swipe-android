@@ -295,7 +295,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
     fun split(line: String, width: Float, paint: Paint): Pair<String, String> {
         var totalWidth = 0f
         for (i in 0..line.length - 1) {
-            totalWidth += paint.measureText(line[i].toString()) + paint.letterSpacing
+            totalWidth += paint.measureText(line[i].toString()) + paint.fontSpacing
             if (totalWidth > width) {
                 return Pair(line.substring(0, i - 1), line.substring(i - 1))
             }
