@@ -10,7 +10,7 @@ object TestAssetsUtils {
     fun loadFromAssets(name: String): String? {
         val file = File(ASSETS_PATH, name)
         return FileInputStream(file)
-                .bufferedReader("utf-8")
+                .bufferedReader()
                 .readText()
     }
 }

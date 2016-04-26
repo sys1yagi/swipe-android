@@ -30,7 +30,7 @@ class SwipeContentsBrowseActivity : AppCompatActivity() {
 
         val binding = DataBindingUtil.setContentView<ActivitySwipeContentsBrowseBinding>(this, R.layout.activity_swipe_contents_browse)
 
-        supportActionBar.hide()
+        supportActionBar?.hide()
 
         binding.pager.adapter = SwipeViewPagerCountAdapter(swipeDocument!!.pages.size)
         binding.pager.setSwipeDocument(swipeDocument)

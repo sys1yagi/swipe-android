@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '23.0.3'
     publishNonDefault true
     defaultConfig {
         minSdkVersion 19
@@ -46,7 +46,7 @@ project.ext {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'org.hjson:hjson:1.1.2'
@@ -76,7 +76,7 @@ kapt {
 }
 
 buildscript {
-    ext.kotlin_version = '1.0.0-beta-4589'
+    ext.kotlin_version = '1.0.1-2'
     repositories {
         mavenCentral()
     }

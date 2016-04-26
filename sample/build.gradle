@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '23.0.3'
 
     dexOptions {
         preDexLibraries = false
@@ -27,5 +27,5 @@ dependencies {
     releaseCompile project(path: ':browser', configuration: 'release')
     debugCompile project(path: ':browser', configuration: 'debug')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
 }

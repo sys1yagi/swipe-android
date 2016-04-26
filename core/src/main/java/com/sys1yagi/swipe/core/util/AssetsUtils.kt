@@ -8,7 +8,7 @@ import java.util.*
 class AssetsUtils {
 
     fun loadFromAssets(context: Context, fileName: String): String? {
-        return context.assets.open(fileName).bufferedReader("utf-8").readText()
+        return context.assets.open(fileName).bufferedReader().readText()
     }
 
     fun scan(assetManager: AssetManager, pathList: MutableList<String>) {

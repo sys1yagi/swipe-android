@@ -103,7 +103,8 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
 
     //markdown
 
-    fun extractMarkdownKey(line: String): String {
+    fun extractMarkdownKey(document: SwipeDocument, line: String): String {
+
         when {
             line.startsWith("####") -> {
                 return "####"
@@ -146,7 +147,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
         markdown.forEach {
             savePaint()
             var line = it
-            val markdownKey = extractMarkdownKey(line)
+            val markdownKey = extractMarkdownKey(document, line)
             styles.styles[markdownKey]?.let {
                 it.font?.let {
                     paint.textSize = it.size.toFloat() * scale
@@ -248,7 +249,7 @@ class SwipeRenderer(internal var swipeDocument: SwipeDocument) {
             savePaint()
             paint.color = Color.BLACK
             var line = it
-            val markdownKey = extractMarkdownKey(it)
+            val markdownKey = extractMarkdownKey(document, it)
             var style: Style? = styles.styles[markdownKey]
             if (it.startsWith(markdownKey)) {
                 line = it.substring(markdownKey.length + 1)
